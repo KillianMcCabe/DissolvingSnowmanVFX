@@ -3,7 +3,8 @@ Shader "Killian/DissolveNoise"
 {
 	Properties 
 	{
-		_Color ("Base Color", Color) = (1,1,1,1)
+		_MainTex ("Diffuse (RGBA)", 2D) = "white"{}
+		// _Color ("Base Color", Color) = (1,1,1,1)
 		_DissolveMap ("Dissolve Map (RGB)", 2D) = "black"{}
 		_DissolveValue ("Value", Range(0, 1)) = 1.0
 		_DissolveThreshold ("Dissolve Threshold", Range(0.1, 1.0)) = 0.0
@@ -15,7 +16,8 @@ Shader "Killian/DissolveNoise"
 
     #include "UnityCG.cginc"
 
-	fixed4 _Color;
+	sampler2D _MainTex;
+	// fixed4 _Color;
 	sampler2D _DissolveMap;
 	float _DissolveValue;
 	float _DissolveThreshold;
@@ -26,12 +28,14 @@ Shader "Killian/DissolveNoise"
 	{
 		float4 vertex : POSITION;
 		float2 texcoord : TEXCOORD0;
+		float2 texcoord1 : TEXCOORD1;
 	};
 	
 	struct vOUT
 	{
 		float4 pos : SV_POSITION;
 		float2 uv : TEXCOORD0;
+		float2 uv1 : TEXCOORD1;
 		float3 objectPos : TEXCOORD3;
 	};
 
@@ -40,6 +44,7 @@ Shader "Killian/DissolveNoise"
 		vOUT o;
 		o.pos = UnityObjectToClipPos(v.vertex);
 		o.uv = v.texcoord;
+		o.uv1 = v.texcoord1;
 		o.objectPos = v.vertex.xyz;
 		return o;
 	}
@@ -48,7 +53,8 @@ Shader "Killian/DissolveNoise"
 	{
 		// calculate colour
 
-		fixed4 col = _Color;
+		fixed4 mainTex = tex2D(_MainTex, i.uv1);
+		fixed4 col = mainTex;
 
 		// calculate dissolve value
 
