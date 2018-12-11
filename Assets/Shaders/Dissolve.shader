@@ -1,10 +1,9 @@
 ﻿
-Shader "Killian/DissolveNoise" 
+Shader "Killian/Dissolve" 
 {
 	Properties 
 	{
 		_MainTex ("Diffuse (RGBA)", 2D) = "white"{}
-		// _Color ("Base Color", Color) = (1,1,1,1)
 		_DissolveMap ("Dissolve Map (RGB)", 2D) = "black"{}
 		_DissolveValue ("Value", Range(0, 1)) = 1.0
 		_DissolveThreshold ("Dissolve Threshold", Range(0.1, 1.0)) = 0.0
@@ -51,20 +50,17 @@ Shader "Killian/DissolveNoise"
 	
 	fixed4 frag(vOUT i) : COLOR
 	{
-		// calculate colour
-
+		// read colour from main texture
 		fixed4 mainTex = tex2D(_MainTex, i.uv1);
 		fixed4 col = mainTex;
 
 		// calculate dissolve value
 
-		fixed noiseVal = tex2D(_DissolveMap, i.uv).r;
-		// _DissolveValue += noiseVal;
-
-		// dissolve over height
 		fixed max_yPos = 3;
 		fixed max_DissolveValue = 1;
 		fixed max_noiseVal = 1;
+
+		fixed noiseVal = tex2D(_DissolveMap, i.uv).r;
 
 		// _DissolveValue = (_DissolveValue * i.objectPos.y) / (max_yPos);
 		// _DissolveValue = (_DissolveValue * (i.objectPos.y + 1)) / (max_yPos + 1);
@@ -73,7 +69,7 @@ Shader "Killian/DissolveNoise"
 		fixed overOne = saturate(_DissolveValue); // clamps value between 0 and 1
 
 		if ( overOne < _DissolveThreshold) {
-			col.a = 0; // mesh is disolved - alpha 0
+			col.a = 0; // mesh is dissolved - alpha 0
 		} else if ( overOne < _DissolveThreshold + _OutlineSize) {
 			col = _OutlineColor; // show dissolve outline
 		}
@@ -120,6 +116,33 @@ Shader "Killian/DissolveNoise"
 			#pragma vertex vert
 			#pragma fragment frag
 
+			ENDCG
+		}
+
+		Pass
+		{
+			Name "META"
+			Tags {"LightMode"="Meta"}
+			Cull Off
+			CGPROGRAM
+					
+			#include "UnityStandardMeta.cginc"
+			#pragma vertex vert_meta
+			#pragma fragment frag_meta_custom
+		
+			fixed4 frag_meta_custom (v2f i) : SV_Target
+			{
+				// Colors                
+				fixed4 col = fixed(1, 0, 0); // The emission color
+		
+				// Calculate emission
+				UnityMetaInput metaIN;
+				UNITY_INITIALIZE_OUTPUT(UnityMetaInput, metaIN);
+				metaIN.Albedo = col.rgb;
+				metaIN.Emission = col.rgb;
+				return UnityMetaFragment(metaIN);
+			}
+		
 			ENDCG
 		}
 	} 
