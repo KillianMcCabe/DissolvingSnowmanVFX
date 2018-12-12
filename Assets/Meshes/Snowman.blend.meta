@@ -18,6 +18,7 @@ ModelImporter:
     400010: Snowman_001
     400012: Sphere_003
     2100000: unnamed
+    2100002: None__Snowman
     2300000: //RootNode
     2300002: Buttons
     2300004: Carrot
@@ -113,7 +114,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
