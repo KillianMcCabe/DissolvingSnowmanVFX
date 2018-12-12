@@ -60,17 +60,17 @@ Shader "Killian/Dissolve"
 		fixed max_DissolveValue = 1;
 		fixed max_noiseVal = 1;
 
-		fixed noiseVal = tex2D(_DissolveMap, i.uv).r;
+		fixed dissolveTextureVal = tex2D(_DissolveMap, i.uv).r;
 
-		// _DissolveValue = (_DissolveValue * i.objectPos.y) / (max_yPos);
-		// _DissolveValue = (_DissolveValue * (i.objectPos.y + 1)) / (max_yPos + 1);
-		_DissolveValue = (_DissolveValue * (i.objectPos.y + noiseVal + 0.5)) / (max_yPos + max_noiseVal);
+		// _DissolveValue = (_DissolveValue * (i.objectPos.y + 0.5)) / (max_yPos); // without dissolve map
+		// _DissolveValue = (_DissolveValue * (i.objectPos.y + dissolveTextureVal + 0.5)) / (max_yPos + max_noiseVal);
+		_DissolveValue = (_DissolveValue * (i.objectPos.y + dissolveTextureVal + 1)) / (max_yPos + max_noiseVal + 4);
 
-		fixed overOne = saturate(_DissolveValue); // clamps value between 0 and 1
+		_DissolveValue = saturate(_DissolveValue); // clamps value between 0 and 1
 
-		if ( overOne < _DissolveThreshold) {
+		if ( _DissolveValue < _DissolveThreshold) {
 			col.a = 0; // mesh is dissolved - alpha 0
-		} else if ( overOne < _DissolveThreshold + _OutlineSize) {
+		} else if ( _DissolveValue < _DissolveThreshold + _OutlineSize) {
 			col = _OutlineColor; // show dissolve outline
 		}
 
@@ -116,33 +116,6 @@ Shader "Killian/Dissolve"
 			#pragma vertex vert
 			#pragma fragment frag
 
-			ENDCG
-		}
-
-		Pass
-		{
-			Name "META"
-			Tags {"LightMode"="Meta"}
-			Cull Off
-			CGPROGRAM
-					
-			#include "UnityStandardMeta.cginc"
-			#pragma vertex vert_meta
-			#pragma fragment frag_meta_custom
-		
-			fixed4 frag_meta_custom (v2f i) : SV_Target
-			{
-				// Colors                
-				fixed4 col = fixed(1, 0, 0); // The emission color
-		
-				// Calculate emission
-				UnityMetaInput metaIN;
-				UNITY_INITIALIZE_OUTPUT(UnityMetaInput, metaIN);
-				metaIN.Albedo = col.rgb;
-				metaIN.Emission = col.rgb;
-				return UnityMetaFragment(metaIN);
-			}
-		
 			ENDCG
 		}
 	} 
