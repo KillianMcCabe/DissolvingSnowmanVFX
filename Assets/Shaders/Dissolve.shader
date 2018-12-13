@@ -63,8 +63,8 @@ Shader "Killian/Dissolve"
 		fixed dissolveTextureVal = tex2D(_DissolveMap, i.dissolveUv).r;
 
 		// _DissolveValue = (_DissolveValue * (i.objectPos.y + 0.5)) / (max_yPos); // without dissolve map
-		// _DissolveValue = (_DissolveValue * (i.objectPos.y + dissolveTextureVal + 0.5)) / (max_yPos + max_noiseVal);
-		_DissolveValue = (_DissolveValue * (i.objectPos.y + dissolveTextureVal + 1)) / (max_yPos + max_noiseVal + 4);
+		_DissolveValue = (_DissolveValue * (i.objectPos.y + dissolveTextureVal + 0.5)) / (max_yPos + max_noiseVal);
+		// _DissolveValue = (_DissolveValue * ((i.objectPos.y/max_yPos) + dissolveTextureVal + 0.25)) / (1 + max_noiseVal );
 
 		_DissolveValue = saturate(_DissolveValue); // clamps value between 0 and 1
 

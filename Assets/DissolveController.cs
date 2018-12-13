@@ -30,7 +30,6 @@ public class DissolveController : MonoBehaviour {
 				var v2 = verts[j];
 				float mag = (v1-v2).magnitude;
 				if ( mag > maxVal ) maxVal = mag;
-				
 			}
 		}
         _dissolveMaterial.SetFloat("_LargestVal", maxVal * 0.5f);
@@ -52,7 +51,6 @@ public class DissolveController : MonoBehaviour {
 
 		yield return new WaitForSeconds(0.1f);
 
-		_dissolveMaterial.SetTexture("_DissolveMap", tex2);
 		while (_value < 1)
 		{
 			_value += Time.deltaTime * timeScale;
@@ -62,7 +60,7 @@ public class DissolveController : MonoBehaviour {
 
 		yield return new WaitForSeconds(0.1f);
 
-		_dissolveMaterial.SetTexture("_DissolveMap", tex1);
+		_dissolveMaterial.SetTexture("_DissolveMap", tex2);
 		while (_value > 0)
 		{
 			_value -= Time.deltaTime * timeScale;
@@ -72,7 +70,6 @@ public class DissolveController : MonoBehaviour {
 
 		yield return new WaitForSeconds(0.1f);
 
-		_dissolveMaterial.SetTexture("_DissolveMap", tex2);
 		while (_value < 1)
 		{
 			_value += Time.deltaTime * timeScale;
