@@ -10,6 +10,9 @@ public class DissolveController : MonoBehaviour {
 	private Material _dissolveMaterial = null;
 	public float timeScale = 0.5f;
 
+	public Texture2D tex1;
+	public Texture2D tex2;
+
 	void Start()
 	{
         Material material = GetComponent<MeshRenderer>().materials[0];
@@ -39,6 +42,7 @@ public class DissolveController : MonoBehaviour {
 	{
 		_value = 1;
 
+		_dissolveMaterial.SetTexture("_DissolveMap", tex1);
 		while (_value > 0)
 		{
 			_value -= Time.deltaTime * timeScale;
@@ -46,8 +50,29 @@ public class DissolveController : MonoBehaviour {
 			yield return null;
 		}
 
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(0.1f);
 
+		_dissolveMaterial.SetTexture("_DissolveMap", tex2);
+		while (_value < 1)
+		{
+			_value += Time.deltaTime * timeScale;
+			_dissolveMaterial.SetFloat("_DissolveValue", _value);
+			yield return null;
+		}
+
+		yield return new WaitForSeconds(0.1f);
+
+		_dissolveMaterial.SetTexture("_DissolveMap", tex1);
+		while (_value > 0)
+		{
+			_value -= Time.deltaTime * timeScale;
+			_dissolveMaterial.SetFloat("_DissolveValue", _value);
+			yield return null;
+		}
+
+		yield return new WaitForSeconds(0.1f);
+
+		_dissolveMaterial.SetTexture("_DissolveMap", tex2);
 		while (_value < 1)
 		{
 			_value += Time.deltaTime * timeScale;
