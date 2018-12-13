@@ -41,10 +41,10 @@ public class DissolveController : MonoBehaviour {
 
 	IEnumerator Dissolve()
 	{
-		float minT = 0.1f;
+		float minT = 0.35f;
 		float t = 1;
 
-		yield return new WaitForSeconds(1.5f);
+		yield return new WaitForSeconds(4f);
 
 		_dissolveMaterial.SetTexture("_DissolveMap", tex1);
 		while (t > minT)

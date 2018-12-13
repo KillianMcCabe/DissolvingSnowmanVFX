@@ -72,7 +72,7 @@ Material:
     - _CutoutThreshold: 0.199
     - _DetailNormalMapScale: 1
     - _DissolveThreshold: 0.1
-    - _DissolveValue: 0.818
+    - _DissolveValue: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
