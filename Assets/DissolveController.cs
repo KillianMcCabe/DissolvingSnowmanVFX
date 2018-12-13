@@ -10,6 +10,8 @@ public class DissolveController : MonoBehaviour {
 	private Material _dissolveMaterial = null;
 	public float timeScale = 0.5f;
 
+	public AnimationCurve curve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+
 	public Texture2D tex1;
 	public Texture2D tex2;
 
@@ -39,40 +41,39 @@ public class DissolveController : MonoBehaviour {
 
 	IEnumerator Dissolve()
 	{
-		_value = 1;
+		float minT = 0.1f;
+		float t = 1;
+
+		yield return new WaitForSeconds(1.5f);
 
 		_dissolveMaterial.SetTexture("_DissolveMap", tex1);
-		while (_value > 0)
+		while (t > minT)
 		{
-			_value -= Time.deltaTime * timeScale;
+			t -= Time.deltaTime * timeScale;
+			_value = curve.Evaluate(t);
 			_dissolveMaterial.SetFloat("_DissolveValue", _value);
 			yield return null;
 		}
-
-		yield return new WaitForSeconds(0.1f);
-
-		while (_value < 1)
+		while (t < 1)
 		{
-			_value += Time.deltaTime * timeScale;
+			t += Time.deltaTime * timeScale;
+			_value = curve.Evaluate(t);
 			_dissolveMaterial.SetFloat("_DissolveValue", _value);
 			yield return null;
 		}
-
-		yield return new WaitForSeconds(0.1f);
 
 		_dissolveMaterial.SetTexture("_DissolveMap", tex2);
-		while (_value > 0)
+		while (t > minT)
 		{
-			_value -= Time.deltaTime * timeScale;
+			t -= Time.deltaTime * timeScale;
+			_value = curve.Evaluate(t);
 			_dissolveMaterial.SetFloat("_DissolveValue", _value);
 			yield return null;
 		}
-
-		yield return new WaitForSeconds(0.1f);
-
-		while (_value < 1)
+		while (t < 1)
 		{
-			_value += Time.deltaTime * timeScale;
+			t += Time.deltaTime * timeScale;
+			_value = curve.Evaluate(t);
 			_dissolveMaterial.SetFloat("_DissolveValue", _value);
 			yield return null;
 		}

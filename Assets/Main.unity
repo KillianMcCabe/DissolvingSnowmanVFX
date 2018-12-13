@@ -483,6 +483,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeScale: 0.15
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.0049591064
+      inSlope: 2.8275218
+      outSlope: 2.8275218
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.04781243
+    - serializedVersion: 3
+      time: 1
+      value: 0.9950409
+      inSlope: 0.051934008
+      outSlope: 0.051934008
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33130074
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   tex1: {fileID: 2800000, guid: b3a0cde886850ab4eb1a3069faad1112, type: 3}
   tex2: {fileID: 2800000, guid: 985cc67ecbd897f4e807130e799c17ef, type: 3}
 --- !u!1 &1951353684
