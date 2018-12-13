@@ -34,7 +34,7 @@ Shader "Killian/Dissolve"
 	{
 		float4 pos : SV_POSITION;
 		float2 uv : TEXCOORD0;
-		float2 uv1 : TEXCOORD1;
+		float2 dissolveUv : TEXCOORD1;
 		float3 objectPos : TEXCOORD3;
 	};
 
@@ -43,7 +43,7 @@ Shader "Killian/Dissolve"
 		vOUT o;
 		o.pos = UnityObjectToClipPos(v.vertex);
 		o.uv = v.texcoord;
-		o.uv1 = v.texcoord1;
+		o.dissolveUv = v.texcoord1;
 		o.objectPos = v.vertex.xyz;
 		return o;
 	}
@@ -51,7 +51,7 @@ Shader "Killian/Dissolve"
 	fixed4 frag(vOUT i) : COLOR
 	{
 		// read colour from main texture
-		fixed4 mainTex = tex2D(_MainTex, i.uv1);
+		fixed4 mainTex = tex2D(_MainTex, i.uv);
 		fixed4 col = mainTex;
 
 		// calculate dissolve value
@@ -60,7 +60,7 @@ Shader "Killian/Dissolve"
 		fixed max_DissolveValue = 1;
 		fixed max_noiseVal = 1;
 
-		fixed dissolveTextureVal = tex2D(_DissolveMap, i.uv).r;
+		fixed dissolveTextureVal = tex2D(_DissolveMap, i.dissolveUv).r;
 
 		// _DissolveValue = (_DissolveValue * (i.objectPos.y + 0.5)) / (max_yPos); // without dissolve map
 		// _DissolveValue = (_DissolveValue * (i.objectPos.y + dissolveTextureVal + 0.5)) / (max_yPos + max_noiseVal);

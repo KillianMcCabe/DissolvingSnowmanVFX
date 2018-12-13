@@ -10,6 +10,7 @@ ModelImporter:
     100008: Snowman
     100010: Snowman_001
     100012: Sphere_003
+    100014: Snowman_BAK
     400000: //RootNode
     400002: Buttons
     400004: Carrot
@@ -17,6 +18,7 @@ ModelImporter:
     400008: Snowman
     400010: Snowman_001
     400012: Sphere_003
+    400014: Snowman_BAK
     2100000: unnamed
     2100002: None__Snowman
     2300000: //RootNode
@@ -26,6 +28,7 @@ ModelImporter:
     2300008: Snowman
     2300010: Snowman_001
     2300012: Sphere_003
+    2300014: Snowman_BAK
     3300000: //RootNode
     3300002: Buttons
     3300004: Carrot
@@ -33,6 +36,7 @@ ModelImporter:
     3300008: Snowman
     3300010: Snowman_001
     3300012: Sphere_003
+    3300014: Snowman_BAK
     4300000: Sphere
     4300002: Scarf
     4300004: Snowman_001
@@ -40,6 +44,7 @@ ModelImporter:
     4300008: Carrot
     4300010: Buttons
     4300012: Snowman
+    4300014: Snowman_BAK
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}
